@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { prisma } from '../config/database'
 import { verifyFirebaseToken } from '../config/firebase'
-import { JWT_SECRET, JWT_EXPIRATION, DEFAULT_PROFILE_PICTURE } from '../utils/constants'
+import { JWT_SECRET, DEFAULT_PROFILE_PICTURE } from '../utils/constants'
 import { TokenPayload } from '../types/auth'
 import { User, UserRole, UserStatus } from '@prisma/client'
 
@@ -142,9 +142,13 @@ export class AuthService {
   }
 
   private generateToken(payload: TokenPayload): string {
-    return jwt.sign(payload, JWT_SECRET, {
-      expiresIn: JWT_EXPIRATION
-    })
+    return jwt.sign(
+      payload, 
+      JWT_SECRET, 
+      {
+        expiresIn: '7d'
+      }
+    );
   }
 
   async getUserById(userId: number) {

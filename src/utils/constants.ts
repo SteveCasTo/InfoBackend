@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
 import path from 'path'
-import { Secret, SignOptions } from 'jsonwebtoken';
+import { Secret } from 'jsonwebtoken';
 
 dotenv.config()
 
@@ -18,8 +18,12 @@ for (const envVar of requiredEnvVars) {
 
 export const DATABASE_URL = process.env.DATABASE_URL as string
 
-export const JWT_SECRET: Secret = process.env.JWT_SECRET as string
-export const JWT_EXPIRATION = process.env.JWT_EXPIRATION as SignOptions['expiresIn'] || '7d';
+export const JWT_SECRET: Secret = process.env.JWT_SECRET || '1nCjXyZbQeRtHuIvYxWzLpMnOpQrStUvWxYz12345678'
+export const JWT_EXPIRATION = (process.env.JWT_EXPIRATION || '7d').replace(/['"]/g, '') as string;
+
+if (!JWT_SECRET) {
+  throw new Error('JWT_SECRET no configurado');
+}
 
 export const NODE_ENV = process.env.NODE_ENV || 'development'
 export const PORT = parseInt(process.env.PORT as string, 10)
