@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "dist/server.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && prisma migrate deploy",
     "lint": "eslint src",
     "check": "npm run lint && npm run build",
     "dev": "nodemon src/server.ts",
@@ -19,6 +19,7 @@
   "description": "",
   "dependencies": {
     "@prisma/client": "^6.16.2",
+    "axios": "^1.12.2",
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",

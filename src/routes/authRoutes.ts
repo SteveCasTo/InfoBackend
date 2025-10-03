@@ -8,10 +8,8 @@ const router = Router()
 
 const authController = new AuthController()
 
-// Ngrok (skip browser warning)
-router.use((req, res, next) => {
-  res.set('ngrok-skip-browser-warning', 'true')
-  next()
+router.get('/health', (req, res) => {
+  res.status(200).json({ status: 'OK' })
 })
 
 router.post('/login', 
