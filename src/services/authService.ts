@@ -7,23 +7,6 @@ import { TokenPayload } from '../types/auth'
 import { User, UserRole, UserStatus } from '@prisma/client'
 
 export class AuthService {
-
-  private sessionStore = new Map<string, { 
-    token: string
-    timestamp: number 
-  }>()
-
-  storeTokenBySession(sessionId: string, firebaseToken: string): void {
-    this.sessionStore.set(sessionId, {
-      token: firebaseToken,
-      timestamp: Date.now()
-    })
-
-    // Auto-limpiar después de 10 minutos
-    setTimeout(() => {
-      this.sessionStore.delete(sessionId)
-    }, 10 * 60 * 1000)
-  }
   
   private sessionTokens: Map<string, string> = new Map();
 
@@ -202,16 +185,5 @@ export class AuthService {
       where: { user_id: userId },
       data: updateData
     })
-  }
-
-  generateJWT(user: User): string {
-    return jwt.sign(
-      { 
-        userId: user.user_id, 
-        email: user.email 
-      },
-      JWT_SECRET,
-      { expiresIn: '7d' }
-    )
   }
 }

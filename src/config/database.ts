@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 import { IS_DEVELOPMENT } from '../utils/constants'
 
 export const prisma = new PrismaClient({
-  log: IS_DEVELOPMENT ? ['query', 'error', 'warn'] : ['error']
+  log: IS_DEVELOPMENT ? ['error', 'warn'] : ['error']
 })
 
 export const connectDatabase = async () => {

@@ -66,46 +66,6 @@ export class AuthController {
     })
   })
 
-  storeTokenBySession = asyncHandler(async (req, res) => {
-    const authHeader = req.headers.authorization
-    const { sessionId } = req.body
-
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      throw createError('Token de Firebase requerido', 401)
-    }
-    if (!sessionId) throw createError('Session ID requerido', 400)
-
-    const firebaseToken = authHeader.substring(7)
-
-    this.authService.storeTokenBySession(sessionId, firebaseToken)
-
-    res.json({
-      success: true,
-      message: 'Token almacenado'
-    })
-  })
-
-  pollSession = asyncHandler(async (req: Request, res: Response) => {
-    const { sessionId } = req.query as { sessionId: string }
-
-    if (!sessionId) {
-      res.json({ success: false, message: 'Session ID requerido' })
-      return;
-    }
-
-    const firebaseToken = this.authService.getTokenBySession(sessionId)
-
-    if (!firebaseToken) {
-      res.json({ success: true, data: null })
-      return;
-    }
-
-    const result = await this.authService.authenticateWithGoogle(firebaseToken)
-    this.authService.deleteSession(sessionId)
-
-    res.json({ success: true, data: result })
-  })
-
   verifyFirebaseToken = asyncHandler(async (req: Request, res: Response) => {
     const authHeader = req.headers.authorization
     

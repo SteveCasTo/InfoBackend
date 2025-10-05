@@ -18,8 +18,6 @@ router.post('/login',
 )
 
 router.post('/google', authController.googleAuth)
-router.post('/google/store-session', authController.storeTokenBySession)
-router.get('/google/poll-session', authController.pollSession)
 router.post('/verify-firebase-token', authController.verifyFirebaseToken)
 
 router.get('/profile', authMiddleware, authController.getProfile)
